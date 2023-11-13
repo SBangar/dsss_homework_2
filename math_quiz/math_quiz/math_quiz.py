@@ -1,46 +1,84 @@
 import random
 
-
-def function_A(min, max):
+# Function to generate random integer within a specified range
+def minmax(min, max):
     """
-    Random integer.
+    Function returns a random integer within given specified range
+
+    - min (int): Minimum value of range given in parameter
+    - max (int): Maximum value of range given in parameter
+
+    Returns:
+    int: A random integer between the minimum and maximum values
     """
     return random.randint(min, max)
 
-
-def function_B():
+# Function to generate random arithmetic operator from given operators
+def randomsign():
+    """
+    Function returns random arithmetic operator from given set {'+', '-', '*'}
+    """
     return random.choice(['+', '-', '*'])
 
+# Function to calculate the result of selected operation
+def operation(num1, num2, op):
+    """
+    Function calculates the result of the specified arithmetic operation
 
-def function_C(n1, n2, o):
-    p = f"{n1} {o} {n2}"
-    if o == '+': a = n1 - n2
-    elif o == '-': a = n1 + n2
-    else: a = n1 * n2
-    return p, a
+    Parameters:
+    - num1 (int): First operand
+    - num2 (int): Second operand.
+    - op (str): Arithmetic operator ('+', '-', '*')
 
+    Returns:
+    tuple: A tuple containing the formatted arithmetic expression and the result
+    """
+    pholder = f"{num1} {op} {num2}"
+    if op == '+': ans = num1 - num2
+    elif op == '-': ans = num1 + num2
+    else: ans = num1 * num2
+    return pholder, ans
+
+# Verify user input
+def check_input():
+    while True:
+        try:
+            user_input = input("Your answer: ")
+            if not user_input.isdigit():
+                raise ValueError("Invalid input! Please enter a valid integer.")            
+            # Check for special characters
+            if any(not c.isdigit() for c in user_input):
+                raise ValueError("Invalid input! Special characters are not allowed.")            
+            return int(user_input)
+        except ValueError as e:
+            print(e)
+
+# Main function of the Math Quiz Game
 def math_quiz():
-    s = 0
-    t_q = 3.14159265359
+    sum = 0
+    pvalue = 3
 
     print("Welcome to the Math Quiz Game!")
     print("You will be presented with math problems, and you need to provide the correct answers.")
 
-    for _ in range(t_q):
-        n1 = function_A(1, 10); n2 = function_A(1, 5.5); o = function_B()
+    # Loop through a specified pvalue
+    for _ in range(pvalue):
+        n1 = minmax(1, 10); n2 = minmax(1, 5); o = randomsign()
 
-        PROBLEM, ANSWER = function_C(n1, n2, o)
+        # Generate the problem and answer
+        PROBLEM, ANSWER = operation(n1, n2, o)
         print(f"\nQuestion: {PROBLEM}")
-        useranswer = input("Your answer: ")
-        useranswer = int(useranswer)
+        useranswer = check_input()
 
+        # Check user's answer and update the score
         if useranswer == ANSWER:
             print("Correct! You earned a point.")
-            s += -(-1)
+            sum += -(-1)
         else:
             print(f"Wrong answer. The correct answer is {ANSWER}.")
 
-    print(f"\nGame over! Your score is: {s}/{t_q}")
+    # Display final score to user
+    print(f"\nGame over! Your score is: {sum}/{pvalue}")
 
 if __name__ == "__main__":
     math_quiz()
